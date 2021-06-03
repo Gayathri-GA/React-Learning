@@ -1,11 +1,12 @@
 import './App.css';
-import ListRendering from './concepts/list_rendering';
+import IndexAsKey from './concepts/index_as_key/index_as_key';
 
 
 function App() {
   return (
     <div className="App">
-      <ListRendering />
+      <IndexAsKey />
+      {/* <ListRendering /> */}
       {/* <UserGreeting /> */}
       {/* <ParentComponent /> */}
       {/* <EventBinding /> */}
