@@ -1,11 +1,12 @@
 import './App.css';
-import UserGreeting from './concepts/conditional_rendering';
+import ListRendering from './concepts/list_rendering';
 
 
 function App() {
   return (
     <div className="App">
-      <UserGreeting />
+      <ListRendering />
+      {/* <UserGreeting /> */}
       {/* <ParentComponent /> */}
       {/* <EventBinding /> */}
     </div>
