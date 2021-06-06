@@ -1,9 +1,9 @@
-import React from 'react'
-
+import React from 'react';
+import styles from '../../appStyle.module.css';
 function IndexComponent({ geek }) {
   return (
     <div>
-      <h2>{geek}</h2>
+      <h2 className={styles.textColor}>{geek}</h2>
     </div>
   )
 }
