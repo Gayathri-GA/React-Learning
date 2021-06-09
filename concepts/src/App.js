@@ -1,9 +1,10 @@
 import './App.css';
-import IndexAsKey from './concepts/index_as_key/index_as_key';
+import FormComponent from './concepts/form_handling';
 function App() {
   return (
     <div className="App">
-      <IndexAsKey />
+      <FormComponent />
+      {/* <IndexAsKey /> */}
       {/* <ListRendering /> */}
       {/* <UserGreeting /> */}
       {/* <ParentComponent /> */}
