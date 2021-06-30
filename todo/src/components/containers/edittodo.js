@@ -1,10 +1,10 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 import '../../App.css';
 
 
 
-class EditTodo extends Component {
+class EditTodo extends React.Component {
   render() {
     return (
       <>
