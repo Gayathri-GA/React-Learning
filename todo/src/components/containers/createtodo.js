@@ -17,10 +17,6 @@ function CreateTodo() {
     });
   }
 
-  // const handleChange = (e) => {
-  //   setValue(e.target.value);
-  // };
-
   const handleSubmit = () => {
     if (state !== "") {
       let toDoArray;
@@ -31,6 +27,7 @@ function CreateTodo() {
         pathname: "/",
         state: { value: [...toDoArray, state] },
       });
+      localStorage.setItem("taskList", JSON.stringify(state))
     } else {
       alert("Please Enter Some Value !");
     }

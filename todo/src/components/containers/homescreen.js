@@ -34,17 +34,21 @@ function HomeScreen() {
                         <ListGroup key={index} style={{ marginBottom: 10 }}>
                           <ListGroup.Item className="d-flex justify-content-between align-items-center">
                             <Col>
-                              <Row>  {item.title}</Row>
-                              <Row>  {item.createdBy}</Row>
+                              <Row>  <h4>{item.title}</h4></Row>
+                              <Row>  <h5>{item.createdBy}</h5></Row>
                             </Col>
                             <div>
-                              <button className="btn" ><i className="fa fa-edit"></i>
+                              <button className="btn" onClick={() => {
+                                history.push({
+                                  pathname: "/edittodo",
+
+                                })
+                              }}><i className="fa fa-edit"></i>
                               </button>
                               <button className="btn" onClick={() => removeTodo(item.title)}><i className="fa fa-trash"></i>
                               </button>
                             </div>
                           </ListGroup.Item>
-
                         </ListGroup>
                       ))}
                     </div>
