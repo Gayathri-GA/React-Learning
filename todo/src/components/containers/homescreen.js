@@ -16,7 +16,7 @@ function HomeScreen() {
           <h1 className='appName'>Todo</h1>
         </div>
         <div class="ml-auto">
-          <button className='btn btn-primary todoButton' onClick={() => history.push('/createtodo')}>Create Todo</button>
+          <button className='btn btn-primary todoButton' onClick={() => history.push({ pathname: '/createtodo', })}>Create Todo</button>
         </div>
       </div>
       <div class="d-flex justify-content-center align-items-center">

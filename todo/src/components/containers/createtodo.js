@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../App.css';
 
 
-function CreateTodo() {
+function CreateTodo({ save }) {
   const [title, setTitle] = useState('');
   const [createdBy, setCreatedBy] = useState('');
   const [description, setDescription] = useState('');
@@ -46,7 +46,7 @@ function CreateTodo() {
               </div>
               <br />
               <div class="d-flex justify-content-center align-items-center">
-                <button class="btn"><i class="fa fa-times"></i> Cancel</button>
+                <button class="btn" ><i class="fa fa-times"></i> Cancel</button>
                 <button class="btn"><i class="fa fa-floppy-o"></i>  Save</button>
               </div>
             </form>
