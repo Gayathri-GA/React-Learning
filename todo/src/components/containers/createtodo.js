@@ -1,62 +1,78 @@
-import React, { useState } from 'react';
+import React from "react";
+import { useHistory } from "react-router-dom";
 import '../../App.css';
+function CreateTodo() {
+  const [state, setState] = React.useState({
+    title: "",
+    createdBy: "",
+    description: ""
+  })
 
-
-function CreateTodo({ save }) {
-  const [title, setTitle] = useState('');
-  const [createdBy, setCreatedBy] = useState('');
-  const [description, setDescription] = useState('');
+  const history = useHistory();
   const handleChange = (e) => {
-    const { name, value } = e.target
-    if (name === "title") {
-      setTitle(value)
-    }
-    else if (name === "createdBy") {
-      setCreatedBy(value)
-    }
-    else {
-      setDescription(value)
-    }
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value
+    });
   }
+
+  // const handleChange = (e) => {
+  //   setValue(e.target.value);
+  // };
+
+  const handleSubmit = () => {
+    if (state !== "") {
+      let toDoArray;
+      if (history.location.state && history.location.state.todoArray) {
+        toDoArray = history.location.state.todoArray;
+      }
+      history.push({
+        pathname: "/",
+        state: { value: [...toDoArray, state] },
+      });
+    } else {
+      alert("Please Enter Some Value !");
+    }
+  };
+
   return (
     <>
       <div className='createTodo'>
-        <div class="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
           <div className='todoListBox'>
             <form>
-              <div class="d-flex justify-content-center align-items-center">
+              <div className="d-flex justify-content-center align-items-center">
                 <label className="inputPadding">
                   Title
                 </label>
-                <input type="textl" className="form-control textfield" value={title} onChange={handleChange} name="title" />
+                <input type="textl" className="form-control textfield" value={state.title} onChange={handleChange} name="title" />
               </div>
               <br />
-              <div class="d-flex justify-content-center align-items-center">
+              <div className="d-flex justify-content-center align-items-center">
                 <label className="inputPadding">
                   Created By
                 </label>
-                <input type="textl" className="form-control textfield" value={createdBy} onChange={handleChange} name="createdBy" />
+                <input type="textl" className="form-control textfield" value={state.createdBy} onChange={handleChange} name="createdBy" />
               </div>
               <br />
-              <div class="d-flex justify-content-center align-items-center">
+              <div className="d-flex justify-content-center align-items-center">
                 <label className="inputPadding">
                   Description
                 </label>
-                <textarea className="form-control textfield" rows='4' value={description} onChange={handleChange} name="description"></textarea>
+                <textarea className="form-control textfield" rows='4' value={state.description} onChange={handleChange} name="description"></textarea>
               </div>
               <br />
-              <div class="d-flex justify-content-center align-items-center">
-                <button class="btn" ><i class="fa fa-times"></i> Cancel</button>
-                <button class="btn"><i class="fa fa-floppy-o"></i>  Save</button>
+              <div className="d-flex justify-content-center align-items-center">
+                <button className="btn" ><i className="fa fa-times"></i> Cancel</button>
+                <button className="btn" onClick={() => handleSubmit()}><i className="fa fa-floppy-o"></i>  Save</button>
               </div>
             </form>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-
-export default CreateTodo
-
+export default CreateTodo;

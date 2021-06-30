@@ -5,7 +5,6 @@
 .appName
 {
   color:aliceblue;
-  margin-top: 20px;
    margin-right: 500px;
 }
 .todoButton
@@ -58,4 +57,12 @@
 
 .btn:hover {
   background-color: RoyalBlue;
+}
+.todo
+{
+  margin-top: 20px;
+  width: 700px;
+  height: 80px;
+  background-color: aliceblue;
+  border-radius: 10px;
 }
