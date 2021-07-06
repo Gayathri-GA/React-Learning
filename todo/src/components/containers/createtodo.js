@@ -18,6 +18,7 @@ class CreateTodo extends React.Component {
     this.submitTodo = this.submitTodo.bind(this);
     this.handleInput = this.handleInput.bind(this);
   }
+
   componentDidMount() {
     if (history.location.state && history.location.state.todoArray) {
       const value = history.location.state.todoArray;
@@ -75,6 +76,19 @@ class CreateTodo extends React.Component {
     currentTodo[element] = e.target.value;
     this.setState({ currentTodo });
   }
+  // Todo to match the props
+  mapStateToProps = state => {
+    return {
+      todos: "",
+      currentTodo: {
+        title: "",
+        createdBy: "",
+        description: "",
+      },
+      editIndex: "",
+    }
+  }
+
   render() {
     return (
       <>
