@@ -1,10 +1,12 @@
 import React from "react";
 import "../../App.css";
 import history from "../../routes/routehistory";
+import firebase from "../../services/firebase";
+
 class CreateTodo extends React.Component {
   constructor(props) {
     super(props);
-
+    this.db = firebase.firestore().collection('todos')
     this.state = {
       todos: [],
       currentTodo: {
@@ -40,6 +42,11 @@ class CreateTodo extends React.Component {
     const newItem = this.state.currentTodo;
     if (newItem.title !== "") {
       const todos = [...this.state.todos, newItem];
+      this.db.add(newItem).then((response) => {
+        console.log(response, 'String successfully stored');
+      }).catch((e) => {
+        console.log(e, 'Firebase Error');
+      })
       this.setState({
         todos: todos,
         currentTodo: {
@@ -49,6 +56,7 @@ class CreateTodo extends React.Component {
         },
       });
       setTimeout(() => {
+
         history.push({ pathname: "/", state: { value: this.state.todos } });
       }, 100);
     }
@@ -75,18 +83,6 @@ class CreateTodo extends React.Component {
     const { currentTodo } = this.state;
     currentTodo[element] = e.target.value;
     this.setState({ currentTodo });
-  }
-  // Todo to match the props
-  mapStateToProps = state => {
-    return {
-      todos: "",
-      currentTodo: {
-        title: "",
-        createdBy: "",
-        description: "",
-      },
-      editIndex: "",
-    }
   }
 
   render() {
