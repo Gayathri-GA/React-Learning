@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, ListGroup, Row } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
 import "../../App.css";
 import history from "../../routes/routehistory";
 
@@ -14,11 +15,13 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     if (history.location.state && history.location.state.value) {
       const value = history.location.state.value;
+      console.log(value, 'HISTORY VALUE')
       this.setState({
         todos: value,
       });
     }
   }
+
   removeTodo = (title) => {
     const newList = this.state.todos.filter((item) => item.title !== title);
     this.setState({

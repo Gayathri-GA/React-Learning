@@ -1,12 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 import "../../App.css";
+import { addTodo } from '../../redux/action';
 import history from "../../routes/routehistory";
-import firebase from "../../services/firebase";
-
 class CreateTodo extends React.Component {
   constructor(props) {
     super(props);
-    this.db = firebase.firestore().collection('todos')
     this.state = {
       todos: [],
       currentTodo: {
@@ -17,8 +16,6 @@ class CreateTodo extends React.Component {
       editIndex: "",
     };
 
-    this.submitTodo = this.submitTodo.bind(this);
-    this.handleInput = this.handleInput.bind(this);
   }
 
   componentDidMount() {
@@ -37,29 +34,11 @@ class CreateTodo extends React.Component {
       }
     }
   }
-  submitTodo(e) {
-    e.preventDefault();
-    const newItem = this.state.currentTodo;
-    if (newItem.title !== "") {
-      const todos = [...this.state.todos, newItem];
-      this.db.add(newItem).then((response) => {
-        console.log(response, 'String successfully stored');
-      }).catch((e) => {
-        console.log(e, 'Firebase Error');
-      })
-      this.setState({
-        todos: todos,
-        currentTodo: {
-          title: "",
-          createdBy: "",
-          description: "",
-        },
-      });
-      setTimeout(() => {
 
-        history.push({ pathname: "/", state: { value: this.state.todos } });
-      }, 100);
-    }
+  submitTodo = (e) => {
+    e.preventDefault();
+    console.log(this.props, 'PROPS SUBMIT')
+    this.props.addTodo(this.state.currentTodo)
   }
 
   updateSubmit(e) {
@@ -73,10 +52,10 @@ class CreateTodo extends React.Component {
     this.setState({
       todos: newData,
     });
+    history.push({ pathname: "/", state: { value: newData } });
+    // setTimeout(() => {
 
-    setTimeout(() => {
-      history.push({ pathname: "/", state: { value: newData } });
-    }, 100);
+    // }, 100);
   }
 
   handleInput(e, element) {
@@ -138,7 +117,7 @@ class CreateTodo extends React.Component {
                       <i className="fa fa-floppy-o"></i> Update
                     </button>
                   ) : (
-                    <button className="btn" onClick={(e) => this.submitTodo(e)}>
+                    <button className="btn" onClick={this.submitTodo}>
                       <i className="fa fa-floppy-o"></i> Save
                     </button>
                   )}
@@ -150,6 +129,16 @@ class CreateTodo extends React.Component {
       </>
     );
   }
-}
 
-export default CreateTodo;
+}
+// const mapStateToProps = (state) => {
+//   return {
+//     todo: state.currentTodo
+//   }
+// }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (x) => { dispatch(addTodo(x)) }
+  }
+}
+export default connect(null, mapDispatchToProps)(CreateTodo);
