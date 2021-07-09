@@ -1,23 +1,39 @@
-const todos = (state = [], action) => {
+const todos = (state = { todos: [] }, action) => {
   switch (action.type) {
     case 'ADD_TODO':
-      return [
+      return {
+        todos: [
+          ...state.todos,
+          action.payload
+        ].map((item, index) => ({ ...item, id: index }))
+      };
+    case "DELETE_TODO":
+      return {
+        // todos: state.todos.filter((item) => {
+        //   return item.title !== action.payload;
+        // }),
         ...state,
-        {
-          id: action.id,
-          text: action.text,
-          completed: false
-        }
-      ]
-    case 'DELETE_TODO':
-      return state.map(todo =>
-        (todo.id === action.id)
-          ? { ...todo, completed: !todo.completed }
-          : todo
-      )
+        todos: state.todos.filter((item, index) => item.title !== action.payload)
+      };
+    case "EDIT_TODO":
+      return {
+        todos: state.todos.map((item) => {
+          if (item.id === action.id) {
+            return {
+              todos: [
+                ...state.todos,
+                action.payload
+              ]
+            };
+          }
+          return item;
+        }),
+      };
+
     default:
       return state
   }
+
 }
 
-export default todos
+export default todos;
