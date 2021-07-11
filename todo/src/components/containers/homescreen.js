@@ -1,40 +1,17 @@
 import React from "react";
-import { Button, Col, ListGroup, Row } from "react-bootstrap";
-import Container from 'react-bootstrap/Container';
+import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { connect } from "react-redux";
+// import { firestoreConnect } from 'react-redux-firebase';
+// import { compose } from 'redux';
 import "../../App.css";
+import { removeTodo } from '../../redux/action';
 import history from "../../routes/routehistory";
-
 class HomeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      todos: [],
-    };
-  }
-  componentDidMount() {
-    if (history.location.state && history.location.state.value) {
-      const value = history.location.state.value;
-      console.log(value, 'HISTORY VALUE')
-      this.setState({
-        todos: value,
-      });
-    }
-  }
-
-  removeTodo = (title) => {
-    const newList = this.state.todos.filter((item) => item.title !== title);
-    this.setState({
-      todos: newList,
-    });
-  };
-  handleEdit = (index) => {
-    history.push({
-      pathname: "/createtodo",
-      state: { todoIndex: index, todoArray: this.state.todos },
-    });
-  };
+  // showTodo = () => {
+  //   this.props.getTodoFromFirestore()
+  // }
   render() {
+    console.log(this.props.todoItem, 'MY HOMEPAGE');
     return (
       <>
         <div>
@@ -46,9 +23,9 @@ class HomeScreen extends React.Component {
                 </div>
                 <div className="todoListBox">
                   <div style={{ paddingTop: 20 }}>
-                    {this.state.todos.length > 0 ? (
+                    {this.props.todoItem.length > 0 ? (
                       <div>
-                        {this.state.todos.map((item, index) => (
+                        {this.props.todoItem.map((item, index) => (
                           <ListGroup key={index} style={{ marginBottom: 10 }}>
                             <ListGroup.Item className="d-flex justify-content-between align-items-center">
                               <Col>
@@ -64,13 +41,18 @@ class HomeScreen extends React.Component {
                               <div>
                                 <button
                                   className="btn"
-                                  onClick={() => this.handleEdit(index)}
+                                  onClick={() =>
+                                    history.push({
+                                      pathname: "/edittodo",
+                                      state: { todoIndex: index, todoArray: this.props.todoItem },
+                                    })
+                                  }
                                 >
                                   <i className="fa fa-edit"></i>
                                 </button>
                                 <button
                                   className="btn"
-                                  onClick={() => this.removeTodo(item.title)}
+                                  onClick={() => this.props.removeTodo(item.title)}
                                 >
                                   <i className="fa fa-trash"></i>
                                 </button>
@@ -88,11 +70,9 @@ class HomeScreen extends React.Component {
               <Col>
                 <Button
                   variant="success"
-                  onClick={() =>
-                    history.push({
-                      pathname: "/createtodo",
-                      state: { todoArray: this.state.todos },
-                    })
+                  onClick={() => {
+                    history.push({ pathname: "/createtodo", state: { todoIndex: null, todoArray: null }, })
+                  }
                   }
                 >
                   Create Todo
@@ -105,5 +85,20 @@ class HomeScreen extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    todoItem: state.todos,
 
-export default HomeScreen;
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeTodo: (title) => dispatch(removeTodo(title)),
+    // getTodoFromFirestore: () => dispatch(getTodoFromFirestore())
+  };
+};
+export default
+  // compose(
+  connect(mapStateToProps, mapDispatchToProps)
+    // , firestoreConnect(() => ['todos']))
+    (HomeScreen);

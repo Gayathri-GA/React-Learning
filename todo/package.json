@@ -7,15 +7,18 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^5.0.2",
-    "firebase": "7.9.0",
     "font-awesome": "^4.7.0",
     "react": "^16.14.0",
+    "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^16.14.0",
+    "react-icons": "^3.11.0",
     "react-redux": "^7.2.4",
+    "react-redux-firebase": "^3.10.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "redux": "^3.7.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "redux-storage": "^4.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import "../../App.css";
-import { addTodo } from '../../redux/action';
+import { submitTodo } from "../../redux/action";
 import history from "../../routes/routehistory";
+
+
 class CreateTodo extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       todos: [],
       currentTodo: {
@@ -18,44 +21,10 @@ class CreateTodo extends React.Component {
 
   }
 
-  componentDidMount() {
-    if (history.location.state && history.location.state.todoArray) {
-      const value = history.location.state.todoArray;
-      const index = history.location.state.todoIndex;
-      this.setState({
-        todos: value,
-        editIndex: index,
-      });
-
-      if (value[index]) {
-        this.setState({
-          currentTodo: value[index],
-        });
-      }
-    }
-  }
-
   submitTodo = (e) => {
     e.preventDefault();
-    console.log(this.props, 'PROPS SUBMIT')
-    this.props.addTodo(this.state.currentTodo)
-  }
-
-  updateSubmit(e) {
-    e.preventDefault();
-    const newData = this.state.todos;
-    newData.map((item, index) => {
-      if (index === this.state.editIndex) {
-        item = this.state.currentTodo;
-      }
-    });
-    this.setState({
-      todos: newData,
-    });
-    history.push({ pathname: "/", state: { value: newData } });
-    // setTimeout(() => {
-
-    // }, 100);
+    this.props.submitTodo(this.state.currentTodo);
+    history.push({ pathname: "/" })
   }
 
   handleInput(e, element) {
@@ -105,22 +74,17 @@ class CreateTodo extends React.Component {
                 </div>
                 <br />
                 <div className="d-flex justify-content-center align-items-center">
-                  <button className="btn">
+                  <button className="btn" onClick={(e) => {
+                    e.preventDefault();
+                    history.push({ pathname: "/" });
+                  }
+                  }>
                     <i className="fa fa-times"></i> Cancel
                   </button>
-                  {console.log(this.state.editIndex, " this.state.editIndex")}
-                  {this.state.editIndex >= 0 ? (
-                    <button
-                      className="btn"
-                      onClick={(e) => this.updateSubmit(e)}
-                    >
-                      <i className="fa fa-floppy-o"></i> Update
-                    </button>
-                  ) : (
-                    <button className="btn" onClick={this.submitTodo}>
-                      <i className="fa fa-floppy-o"></i> Save
-                    </button>
-                  )}
+                  <button className="btn" onClick={(e) => this.submitTodo(e)}>
+                    <i className="fa fa-floppy-o"></i> Save
+                  </button>
+
                 </div>
               </form>
             </div>
@@ -129,16 +93,11 @@ class CreateTodo extends React.Component {
       </>
     );
   }
-
 }
-// const mapStateToProps = (state) => {
-//   return {
-//     todo: state.currentTodo
-//   }
-// }
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    addTodo: (x) => { dispatch(addTodo(x)) }
+    submitTodo: (todoAdd) => { dispatch(submitTodo(todoAdd)) }
   }
 }
 export default connect(null, mapDispatchToProps)(CreateTodo);
